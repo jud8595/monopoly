@@ -1,0 +1,28 @@
+apply plugin: 'java'
+
+configurations.all {
+        resolutionStrategy {
+                failOnVersionConflict()
+        }
+}
+
+
+group = 'com.gl'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+tasks.withType(JavaCompile) {
+	options.encoding = 'UTF-8'
+}
+
+repositories {
+        mavenCentral()
+}
+
+
+dependencies {
+	compile 'org.mockito:mockito-all:1.9.5'
+	testCompile 'junit:junit:4.12'
+}
+
