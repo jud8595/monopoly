@@ -1,22 +1,22 @@
 package com.gl.mono.square;
 
 import com.gl.mono.action.Action;
+import com.gl.mono.action.ActionBuyEstate;
 import com.gl.mono.action.ActionDoNothing;
-
-import java.util.List;
 
 public class Estate implements Square {
 
-    private List<Action> actions;
+    private ActionBuyEstate action;
     private String name;
 
-    public Estate(List<Action> action, String name) {
-        this.actions = action;
+    public Estate(BuyableFeature feature, String name) {
+        this.action = feature.createAction(this);
         this.name = name;
     }
 
-    public List<Action> getActions() {
-        return actions;
+    @Override
+    public Action getAction() {
+        return this.action;
     }
 
     @Override
@@ -27,4 +27,5 @@ public class Estate implements Square {
     public String getName() {
         return name;
     }
+
 }

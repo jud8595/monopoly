@@ -7,16 +7,16 @@ import java.util.List;
 public class Start implements Square {
 
     private final Action hoverAction;
-    private final List<Action> actions;
+    //private final List<Action> actions;
 
-    public Start(List<Action> actions, Action hoverAction) {
-        this.actions = actions;
+    public Start(/*List<Action> actions,*/ Action hoverAction) {
+        //this.actions = actions;
         this.hoverAction = hoverAction;
     }
 
     @Override
-    public List<Action> getActions() {
-        return actions;
+    public Action getAction() {
+        return null;
     }
 
     @Override

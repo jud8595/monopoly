@@ -61,12 +61,15 @@ public class Mono {
         });*/
 
         positions.set(currentPlayer, positions.get(currentPlayer) + num);
-        List<String> actions = squares.get(getCurrentPlayer().getPos()).getActions()
+        /*List<String> actions = squares.get(getCurrentPlayer().getPos()).getActions()
                 .stream()
                 .map(a -> a.describe())
-                .collect(toList());
+                .collect(toList());*/
 
-        hoverActionResult.addAll(actions);
+        String action = squares.get(getCurrentPlayer().getPos()).getAction().describe();
+
+        //hoverActionResult.addAll(actions);
+        hoverActionResult.add(action);
         return hoverActionResult;
     }
 
@@ -84,7 +87,8 @@ public class Mono {
     }
 
     public void executeAction(int actionNum) {
-        Action action = squares.get(getCurrentPlayer().getPos()).getActions().get(actionNum);
+        Action action = squares.get(getCurrentPlayer().getPos()).getAction();//.get(actionNum);
+        //if (action instanceof ActionPlayerBuyEstate) action.execute(player, estate) ?
         if (action instanceof ActionNeedCurrentPlayer) {
             ((ActionNeedCurrentPlayer) action).execute(getCurrentPlayer());
         } else if (action instanceof ActionNeedNothing) {
