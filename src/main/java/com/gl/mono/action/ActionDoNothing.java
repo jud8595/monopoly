@@ -2,6 +2,8 @@ package com.gl.mono.action;
 
 public class ActionDoNothing implements ActionNeedNothing {
 
+    public static final String DO_NOTHING = "do nothing";
+
     @Override
     public void execute() {
         // do nothing
@@ -9,6 +11,6 @@ public class ActionDoNothing implements ActionNeedNothing {
 
     @Override
     public String describe() {
-        return "do nothing";
+        return DO_NOTHING;
     }
 }

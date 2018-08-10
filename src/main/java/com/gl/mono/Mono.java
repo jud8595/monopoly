@@ -10,8 +10,8 @@ import com.gl.mono.square.EstateService;
 import com.gl.mono.square.Square;
 
 import java.util.ArrayList;
-import java.util.stream.Collectors;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Mono {
 
@@ -50,14 +50,14 @@ public class Mono {
     public List<String> play() {
         int num = this.dice.throwDice();
         List<Action> hoverActions = new ArrayList<>();
-        List<String> hoverActionResult = new ArrayList<>();
-        /*for (int i=1; i<num; ++i) {
+
+        for (int i=1; i<num; ++i) {
             hoverActions.add(squares.get(positions.get(currentPlayer) + i).hover());
         }
         hoverActions.forEach(a -> {
-            a.execute();
-            hoverActionResult.add(a.describe());
-        });*/
+            executeAction(a);
+            System.out.println(a.describe());
+        });
 
         positions.set(currentPlayer, positions.get(currentPlayer) + num);
         List<String> actions = squares.get(getCurrentPlayer().getPos()).getActions()
@@ -65,11 +65,7 @@ public class Mono {
                 .map(a -> a.describe())
                 .collect(Collectors.toList());
 
-        //String action = squares.get(getCurrentPlayer().getPos()).getAction().describe();
-
-        hoverActionResult.addAll(actions);
-        //hoverActionResult.add(action);
-        return hoverActionResult;
+        return actions;
     }
 
     public Player nextTurn() {
@@ -86,12 +82,16 @@ public class Mono {
     }
 
     public void executeAction(int actionNum) {
-        Action action = squares.get(getCurrentPlayer().getPos()).getActions().get(actionNum);
-        //if (action instanceof ActionPlayerBuyEstate) action.execute(player, estate) ?
+        executeAction(squares.get(getCurrentPlayer().getPos()).getActions().get(actionNum));
+    }
+
+    private void executeAction(Action action) {
         if (action instanceof ActionNeedCurrentPlayer) {
             ((ActionNeedCurrentPlayer) action).execute(getCurrentPlayer());
         } else if (action instanceof ActionNeedNothing) {
             ((ActionNeedNothing) action).execute();
+        } else {
+            throw new IllegalArgumentException("Unknown type of action");
         }
     }
 }

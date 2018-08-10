@@ -6,6 +6,8 @@ import com.gl.mono.square.EstateService;
 
 public class ActionBuyEstate implements ActionNeedCurrentPlayer {
 
+    public static final String BUY_ESTATE = "buy estate";
+
     private EstateService estateService;
     private Estate estate;
 
@@ -21,6 +23,6 @@ public class ActionBuyEstate implements ActionNeedCurrentPlayer {
 
     @Override
     public String describe() {
-        return "buy estate";
+        return BUY_ESTATE;
     }
 }

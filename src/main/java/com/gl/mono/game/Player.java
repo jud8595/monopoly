@@ -1,7 +1,6 @@
 package com.gl.mono.game;
 
 import com.gl.mono.square.Estate;
-import com.gl.mono.square.EstateSquare;
 
 import java.util.List;
 
