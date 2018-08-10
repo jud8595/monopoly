@@ -4,7 +4,7 @@ import com.gl.mono.game.Player;
 import com.gl.mono.square.Estate;
 import com.gl.mono.square.EstateService;
 
-public class ActionBuyEstate implements ActionNeedCurrentPlayer {
+public class ActionBuyEstate implements ActionNeedCurrentPlayer, ActionWaitForInput {
 
     public static final String BUY_ESTATE = "buy estate";
 

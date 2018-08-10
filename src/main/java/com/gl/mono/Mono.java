@@ -3,6 +3,7 @@ package com.gl.mono;
 import com.gl.mono.action.Action;
 import com.gl.mono.action.ActionNeedCurrentPlayer;
 import com.gl.mono.action.ActionNeedNothing;
+import com.gl.mono.action.ActionWaitForInput;
 import com.gl.mono.game.Bank;
 import com.gl.mono.game.Dice;
 import com.gl.mono.game.Player;
@@ -60,8 +61,18 @@ public class Mono {
         });
 
         positions.set(currentPlayer, positions.get(currentPlayer) + num);
+        // Actions which do not wait for user input
+        squares.get(getCurrentPlayer().getPos()).getActions()
+                .stream()
+                .filter(a -> !(a instanceof ActionWaitForInput))
+                .forEach(a -> {
+                    executeAction(a);
+                    System.out.println(a.describe());
+                });
+
         List<String> actions = squares.get(getCurrentPlayer().getPos()).getActions()
                 .stream()
+                .filter(a -> a instanceof ActionWaitForInput)
                 .map(a -> a.describe())
                 .collect(Collectors.toList());
 
@@ -82,7 +93,12 @@ public class Mono {
     }
 
     public void executeAction(int actionNum) {
-        executeAction(squares.get(getCurrentPlayer().getPos()).getActions().get(actionNum));
+        Action action = squares.get(getCurrentPlayer().getPos()).getActions().stream()
+                .filter(a -> a instanceof ActionWaitForInput)
+                .collect(Collectors.toList())
+                .get(actionNum);
+
+        executeAction(action);
     }
 
     private void executeAction(Action action) {

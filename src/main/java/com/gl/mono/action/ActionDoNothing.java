@@ -1,6 +1,6 @@
 package com.gl.mono.action;
 
-public class ActionDoNothing implements ActionNeedNothing {
+public class ActionDoNothing implements ActionNeedNothing, ActionWaitForInput {
 
     public static final String DO_NOTHING = "do nothing";
 

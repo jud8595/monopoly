@@ -97,4 +97,12 @@ public class MonoTest {
         mono.play();
         Assert.assertEquals(1000, mono.getCurrentPlayer().getBalance());
     }
+
+    @Test
+    public void end_on_start() {
+        when(dice.throwDice()).thenReturn(1);
+        Assert.assertEquals(0, mono.getCurrentPlayer().getBalance());
+        mono.play();
+        Assert.assertEquals(5000, mono.getCurrentPlayer().getBalance());
+    }
 }
