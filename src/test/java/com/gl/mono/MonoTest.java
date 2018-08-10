@@ -38,7 +38,11 @@ public class MonoTest {
         squares = new ArrayList<>();
         estateService = new EstateService();
         bank = new Bank();
-        Estate estate1 = new Estate(estateService, "rue Rivoli");
+        Estate estate = new Estate("rue Rivoli");
+        List<Action> actions = new ArrayList<>();
+        actions.add(new ActionDoNothing());
+        actions.add(new ActionBuyEstate(estateService, estate));
+        EstateSquare estate1 = new EstateSquare(estate, actions);
         for (int i=0; i<20; ++i) {
             squares.add(estate1);
         }
