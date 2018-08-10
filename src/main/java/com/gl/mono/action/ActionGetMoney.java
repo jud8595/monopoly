@@ -1,23 +1,21 @@
 package com.gl.mono.action;
 
 import com.gl.mono.game.Bank;
-import com.gl.mono.CurrentPlayer;
+import com.gl.mono.game.Player;
 
-public class ActionGetMoney implements Action {
+public class ActionGetMoney implements ActionNeedCurrentPlayer {
 
     private int amount;
-    private CurrentPlayer currentPlayer;
     private Bank bank;
 
-    public ActionGetMoney(int amount, CurrentPlayer currentPlayer, Bank bank) {
+    public ActionGetMoney(int amount, Bank bank) {
         this.amount = amount;
-        this.currentPlayer = currentPlayer;
         this.bank = bank;
     }
 
     @Override
-    public void execute() {
-        this.bank.playerGetMoney(this.currentPlayer.getCurrentPlayer(), amount);
+    public void execute(Player player) {
+        this.bank.playerGetMoney(player, amount);
     }
 
     @Override

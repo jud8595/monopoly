@@ -1,6 +1,6 @@
 package com.gl.mono.action;
 
-public class ActionDoNothing implements Action {
+public class ActionDoNothing implements ActionNeedNothing {
 
     @Override
     public void execute() {

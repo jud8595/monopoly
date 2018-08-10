@@ -1,6 +1,8 @@
 package com.gl.mono;
 
 import com.gl.mono.action.Action;
+import com.gl.mono.action.ActionNeedCurrentPlayer;
+import com.gl.mono.action.ActionNeedNothing;
 import com.gl.mono.square.EstateService;
 import com.gl.mono.square.Square;
 import com.gl.mono.game.Bank;
@@ -82,6 +84,11 @@ public class Mono {
     }
 
     public void executeAction(int actionNum) {
-        squares.get(getCurrentPlayer().getPos()).getActions().get(actionNum).execute();
+        Action action = squares.get(getCurrentPlayer().getPos()).getActions().get(actionNum);
+        if (action instanceof ActionNeedCurrentPlayer) {
+            ((ActionNeedCurrentPlayer) action).execute(getCurrentPlayer());
+        } else if (action instanceof ActionNeedNothing) {
+            ((ActionNeedNothing) action).execute();
+        }
     }
 }
