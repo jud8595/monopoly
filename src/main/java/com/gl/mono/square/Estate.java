@@ -1,10 +1,9 @@
 package com.gl.mono.square;
 
-import com.gl.mono.action.Action;
-import com.gl.mono.action.ActionBuyEstate;
-import com.gl.mono.action.ActionDoNothing;
+import com.gl.mono.action.*;
+import com.gl.mono.game.Player;
 
-public class Estate implements Square {
+public class Estate implements Square, SquareXNeedPlayer {
 
     private ActionBuyEstate action;
     private EstateService estateService;
@@ -18,6 +17,11 @@ public class Estate implements Square {
     @Override
     public Action getAction() {
         return this.action;
+    }
+
+    @Override
+    public ActionX getActionX(Player player) {
+        return new ActionXBuyEstate(estateService, this, player);
     }
 
     @Override

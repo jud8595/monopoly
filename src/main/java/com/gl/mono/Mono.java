@@ -3,11 +3,13 @@ package com.gl.mono;
 import com.gl.mono.action.Action;
 import com.gl.mono.action.ActionNeedCurrentPlayer;
 import com.gl.mono.action.ActionNeedNothing;
+import com.gl.mono.action.ActionX;
 import com.gl.mono.square.EstateService;
 import com.gl.mono.square.Square;
 import com.gl.mono.game.Bank;
 import com.gl.mono.game.Dice;
 import com.gl.mono.game.Player;
+import com.gl.mono.square.SquareXNeedPlayer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -87,6 +89,12 @@ public class Mono {
     }
 
     public void executeAction(int actionNum) {
+        Square curSquare = squares.get(getCurrentPlayer().getPos());
+        if (curSquare instanceof SquareXNeedPlayer) {
+            ActionX act = ((SquareXNeedPlayer) curSquare).getActionX(getCurrentPlayer());
+            act.execute();
+        }
+
         Action action = squares.get(getCurrentPlayer().getPos()).getAction();//.get(actionNum);
         //if (action instanceof ActionPlayerBuyEstate) action.execute(player, estate) ?
         if (action instanceof ActionNeedCurrentPlayer) {
