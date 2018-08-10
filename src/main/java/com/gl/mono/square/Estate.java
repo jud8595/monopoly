@@ -7,10 +7,11 @@ import com.gl.mono.action.ActionDoNothing;
 public class Estate implements Square {
 
     private ActionBuyEstate action;
+    private EstateService estateService;
     private String name;
 
-    public Estate(BuyableFeature feature, String name) {
-        this.action = feature.createAction(this);
+    public Estate(EstateService estateService, String name) {
+        this.action = new ActionBuyEstate(estateService, this);
         this.name = name;
     }
 

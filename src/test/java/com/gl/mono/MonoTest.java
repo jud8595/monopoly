@@ -43,8 +43,8 @@ public class MonoTest {
         //squares.add(start);
         //List<Action> actions = new ArrayList<>();
         //actions.add(new ActionBuyEstate(estateService, estate1));
-        BuyableFeature feature = new BuyableFeature(estateService);
-        Estate estate1 = new Estate(feature, "rue Rivoli");
+        //BuyableFeature feature = new BuyableFeature(estateService);
+        Estate estate1 = new Estate(estateService,"rue Rivoli");
         for (int i=0; i<20; ++i) {
             squares.add(estate1);
         }
