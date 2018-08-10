@@ -10,6 +10,7 @@ import com.gl.mono.square.EstateService;
 import com.gl.mono.square.Square;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 import java.util.List;
 
 public class Mono {
@@ -59,15 +60,15 @@ public class Mono {
         });*/
 
         positions.set(currentPlayer, positions.get(currentPlayer) + num);
-        /*List<String> actions = squares.get(getCurrentPlayer().getPos()).getActions()
+        List<String> actions = squares.get(getCurrentPlayer().getPos()).getActions()
                 .stream()
                 .map(a -> a.describe())
-                .collect(toList());*/
+                .collect(Collectors.toList());
 
-        String action = squares.get(getCurrentPlayer().getPos()).getAction().describe();
+        //String action = squares.get(getCurrentPlayer().getPos()).getAction().describe();
 
-        //hoverActionResult.addAll(actions);
-        hoverActionResult.add(action);
+        hoverActionResult.addAll(actions);
+        //hoverActionResult.add(action);
         return hoverActionResult;
     }
 
@@ -85,7 +86,7 @@ public class Mono {
     }
 
     public void executeAction(int actionNum) {
-        Action action = squares.get(getCurrentPlayer().getPos()).getAction();//.get(actionNum);
+        Action action = squares.get(getCurrentPlayer().getPos()).getActions().get(actionNum);
         //if (action instanceof ActionPlayerBuyEstate) action.execute(player, estate) ?
         if (action instanceof ActionNeedCurrentPlayer) {
             ((ActionNeedCurrentPlayer) action).execute(getCurrentPlayer());

@@ -1,22 +1,24 @@
 package com.gl.mono.square;
 
 import com.gl.mono.action.Action;
+import com.gl.mono.action.ActionDoNothing;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Start implements Square {
 
-    private final Action hoverAction;
-    //private final List<Action> actions;
+    private Action hoverAction;
+    private List<Action> actions = new ArrayList<>();
 
-    public Start(/*List<Action> actions,*/ Action hoverAction) {
-        //this.actions = actions;
-        this.hoverAction = hoverAction;
+    public Start() {
+        this.actions.add(new ActionDoNothing());
+        this.hoverAction = new ActionDoNothing();
     }
 
     @Override
-    public Action getAction() {
-        return null;
+    public List<Action> getActions() {
+        return this.actions;
     }
 
     @Override

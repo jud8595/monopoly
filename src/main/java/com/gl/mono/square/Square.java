@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface Square {
 
-    Action getAction();
+    List<Action> getActions();
 
     Action hover();
 }

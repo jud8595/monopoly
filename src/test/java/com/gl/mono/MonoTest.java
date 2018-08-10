@@ -38,20 +38,12 @@ public class MonoTest {
         squares = new ArrayList<>();
         estateService = new EstateService();
         bank = new Bank();
-        //Square start = new Start(Arrays.asList(new ActionDoNothing()), new ActionGetMoney(5000));
-        //squares.add(start);
-        //squares.add(start);
-        //List<Action> actions = new ArrayList<>();
-        //actions.add(new ActionBuyEstate(estateService, estate1));
-        //BuyableFeature feature = new BuyableFeature(estateService);
-        Estate estate1 = new Estate(estateService,"rue Rivoli");
+        Estate estate1 = new Estate(estateService, "rue Rivoli");
         for (int i=0; i<20; ++i) {
             squares.add(estate1);
         }
         when(dice.throwDice()).thenReturn(8);
         mono = new Mono(4, dice, squares, estateService, bank);
-        //actions.add(new ActionDoNothing());
-        //CurrentPlayer currentPlayer = new CurrentPlayer(mono);
     }
 
     @Test
@@ -69,8 +61,8 @@ public class MonoTest {
     @Test
     public void tell_actions() {
         List<String> actions = mono.play();
-        //Assert.assertEquals("do nothing", actions.get(0));
-        //Assert.assertEquals("buy estate", actions.get(1));
+        Assert.assertEquals("do nothing", actions.get(0));
+        Assert.assertEquals("buy estate", actions.get(1));
     }
 
     @Test
