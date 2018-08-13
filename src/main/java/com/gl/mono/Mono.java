@@ -21,9 +21,8 @@ public class Mono {
     private List<Integer> balances;
     private EstateService estateService;
     private Bank bank;
-    private ActionGiveRight actionGiveRight;
 
-    public Mono(int playerCount, Dice dice, List<Square> squares, EstateService estateService, Bank bank, ActionGiveRight actionGiveRight) {
+    public Mono(int playerCount, Dice dice, List<Square> squares, EstateService estateService, Bank bank) {
         players = new ArrayList<>();
         for (int i=0; i<playerCount; ++i) {
             players.add(new Player("player" + i));
@@ -33,7 +32,6 @@ public class Mono {
         this.bank = bank;
         this.dice = dice;
         this.squares = squares;
-        this.actionGiveRight = actionGiveRight;
         this.positions = new ArrayList<>();
         this.balances = new ArrayList<>();
         this.players.stream().forEach(p -> {
@@ -81,7 +79,6 @@ public class Mono {
     public Player nextTurn() {
         currentPlayer = (currentPlayer+1)%players.size();
         Player player = getCurrentPlayer();
-        actionGiveRight.setPlayer(player);
         return player;
     }
 
@@ -103,15 +100,17 @@ public class Mono {
     }
 
     private void executeAction(Action action) {
-        actionGiveRight.setPlayer(getCurrentPlayer());
-
         if (action instanceof ActionNeedCurrentPlayer) {
             //((ActionNeedCurrentPlayer) action).execute(getCurrentPlayer());
-            ((ActionNeedCurrentPlayer) action).execute();
+            ((ActionNeedCurrentPlayer) action).execute(this);
         } else if (action instanceof ActionNeedNothing) {
             ((ActionNeedNothing) action).execute();
         } else {
             throw new IllegalArgumentException("Unknown type of action");
         }
+    }
+
+    public Player getCurrentPlayer(ActionNeedCurrentPlayer actionNeedCurrentPlayer) {
+        return getCurrentPlayer();
     }
 }

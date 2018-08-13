@@ -1,5 +1,6 @@
 package com.gl.mono.action;
 
+import com.gl.mono.Mono;
 import com.gl.mono.game.Bank;
 import com.gl.mono.game.Player;
 
@@ -19,8 +20,9 @@ public class ActionGetMoney implements ActionNeedCurrentPlayer {
     }
 
     @Override
-    public void execute() {
-
+    public void execute(Mono mono) {
+        Player player = mono.getCurrentPlayer(this);
+        this.bank.playerGetMoney(player, amount);
     }
 
     @Override

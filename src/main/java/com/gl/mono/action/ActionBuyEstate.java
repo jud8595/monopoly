@@ -1,5 +1,6 @@
 package com.gl.mono.action;
 
+import com.gl.mono.Mono;
 import com.gl.mono.game.Player;
 import com.gl.mono.square.Estate;
 import com.gl.mono.square.EstateService;
@@ -10,12 +11,10 @@ public class ActionBuyEstate implements ActionNeedCurrentPlayer, ActionWaitForIn
 
     private EstateService estateService;
     private Estate estate;
-    private ActionGiveRightRead actionGiveRightRead;
 
-    public ActionBuyEstate(EstateService estateService, Estate estate, ActionGiveRightRead actionGiveRightRead) {
+    public ActionBuyEstate(EstateService estateService, Estate estate) {
         this.estateService = estateService;
         this.estate = estate;
-        this.actionGiveRightRead = actionGiveRightRead;
     }
 
     @Override
@@ -23,10 +22,9 @@ public class ActionBuyEstate implements ActionNeedCurrentPlayer, ActionWaitForIn
         estateService.registerBuy(estate, player);
     }
 
-    public void execute() {
-        ((ActionGiveRight) this.actionGiveRightRead).setPlayer(null);
-        Player currentPlayer = this.actionGiveRightRead.askForRight(this);
-        estateService.registerBuy(estate, currentPlayer);
+    public void execute(Mono mono) {
+        Player player = mono.getCurrentPlayer(this);
+        estateService.registerBuy(estate, player);
     }
 
     @Override

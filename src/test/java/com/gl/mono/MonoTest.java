@@ -35,7 +35,6 @@ public class MonoTest {
         squares = new ArrayList<>();
         estateService = new EstateService();
         bank = new Bank();
-        ActionGiveRight actionGiveRight = new ActionGiveRight();
 
         // start square
         List<Action> actionsStartSquare = new ArrayList<>();
@@ -46,7 +45,7 @@ public class MonoTest {
         Estate estate = new Estate("rue Rivoli");
         List<Action> actions = new ArrayList<>();
         actions.add(new ActionDoNothing());
-        actions.add(new ActionBuyEstate(estateService, estate, actionGiveRight));
+        actions.add(new ActionBuyEstate(estateService, estate));
         EstateSquare estate1 = new EstateSquare(estate, actions);
 
         // bill squares
@@ -56,7 +55,7 @@ public class MonoTest {
             squares.add(estate1);
         }
 
-        mono = new Mono(4, dice, squares, estateService, bank, actionGiveRight);
+        mono = new Mono(4, dice, squares, estateService, bank);
     }
 
     @Test
@@ -88,7 +87,7 @@ public class MonoTest {
         Assert.assertEquals(1, mono.getCurrentPlayer().getEstates().size());
     }
 
-    /*@Test
+    @Test
     public void hover_start() {
         when(dice.throwDice()).thenReturn(8);
         Assert.assertEquals(0, mono.getCurrentPlayer().getBalance());
@@ -102,7 +101,7 @@ public class MonoTest {
         Assert.assertEquals(0, mono.getCurrentPlayer().getBalance());
         mono.play();
         Assert.assertEquals(5000, mono.getCurrentPlayer().getBalance());
-    }*/
+    }
 
     @Test
     public void end_on_start_no_user_input() {
