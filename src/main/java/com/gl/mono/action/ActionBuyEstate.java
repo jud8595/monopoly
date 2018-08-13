@@ -23,7 +23,7 @@ public class ActionBuyEstate implements ActionNeedCurrentPlayer, ActionWaitForIn
     }
 
     public void execute(Mono mono) {
-        Player player = mono.getCurrentPlayer(this);
+        Player player = mono.getCurrentPlayer();
         estateService.registerBuy(estate, player);
     }
 

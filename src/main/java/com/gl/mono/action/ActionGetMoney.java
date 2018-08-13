@@ -21,7 +21,7 @@ public class ActionGetMoney implements ActionNeedCurrentPlayer {
 
     @Override
     public void execute(Mono mono) {
-        Player player = mono.getCurrentPlayer(this);
+        Player player = mono.getCurrentPlayer();
         this.bank.playerGetMoney(player, amount);
     }
 

@@ -109,8 +109,4 @@ public class Mono {
             throw new IllegalArgumentException("Unknown type of action");
         }
     }
-
-    public Player getCurrentPlayer(ActionNeedCurrentPlayer actionNeedCurrentPlayer) {
-        return getCurrentPlayer();
-    }
 }
