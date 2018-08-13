@@ -105,4 +105,12 @@ public class MonoTest {
         mono.play();
         Assert.assertEquals(5000, mono.getCurrentPlayer().getBalance());
     }
+
+    @Test
+    public void end_on_start_no_user_input() {
+        when(dice.throwDice()).thenReturn(1);
+        Assert.assertEquals(0, mono.getCurrentPlayer().getBalance());
+        List<String> actions = mono.play();
+        Assert.assertEquals(0, actions.size());
+    }
 }
