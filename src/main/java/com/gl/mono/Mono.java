@@ -1,9 +1,6 @@
 package com.gl.mono;
 
-import com.gl.mono.action.Action;
-import com.gl.mono.action.ActionNeedCurrentPlayer;
-import com.gl.mono.action.ActionNeedNothing;
-import com.gl.mono.action.ActionWaitForInput;
+import com.gl.mono.action.*;
 import com.gl.mono.game.Bank;
 import com.gl.mono.game.Dice;
 import com.gl.mono.game.Player;
@@ -24,8 +21,9 @@ public class Mono {
     private List<Integer> balances;
     private EstateService estateService;
     private Bank bank;
+    private ActionGiveRight actionGiveRight;
 
-    public Mono(int playerCount, Dice dice, List<Square> squares, EstateService estateService, Bank bank) {
+    public Mono(int playerCount, Dice dice, List<Square> squares, EstateService estateService, Bank bank, ActionGiveRight actionGiveRight) {
         players = new ArrayList<>();
         for (int i=0; i<playerCount; ++i) {
             players.add(new Player("player" + i));
@@ -35,6 +33,7 @@ public class Mono {
         this.bank = bank;
         this.dice = dice;
         this.squares = squares;
+        this.actionGiveRight = actionGiveRight;
         this.positions = new ArrayList<>();
         this.balances = new ArrayList<>();
         this.players.stream().forEach(p -> {
@@ -81,7 +80,9 @@ public class Mono {
 
     public Player nextTurn() {
         currentPlayer = (currentPlayer+1)%players.size();
-        return getCurrentPlayer();
+        Player player = getCurrentPlayer();
+        actionGiveRight.setPlayer(player);
+        return player;
     }
 
     public Player getCurrentPlayer() {

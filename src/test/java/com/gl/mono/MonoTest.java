@@ -1,9 +1,6 @@
 package com.gl.mono;
 
-import com.gl.mono.action.Action;
-import com.gl.mono.action.ActionBuyEstate;
-import com.gl.mono.action.ActionDoNothing;
-import com.gl.mono.action.ActionGetMoney;
+import com.gl.mono.action.*;
 import com.gl.mono.game.Bank;
 import com.gl.mono.game.Dice;
 import com.gl.mono.square.*;
@@ -38,6 +35,7 @@ public class MonoTest {
         squares = new ArrayList<>();
         estateService = new EstateService();
         bank = new Bank();
+        ActionGiveRight actionGiveRight = new ActionGiveRight();
 
         // start square
         List<Action> actionsStartSquare = new ArrayList<>();
@@ -48,7 +46,7 @@ public class MonoTest {
         Estate estate = new Estate("rue Rivoli");
         List<Action> actions = new ArrayList<>();
         actions.add(new ActionDoNothing());
-        actions.add(new ActionBuyEstate(estateService, estate));
+        actions.add(new ActionBuyEstate(estateService, estate, actionGiveRight));
         EstateSquare estate1 = new EstateSquare(estate, actions);
 
         // bill squares
@@ -58,7 +56,7 @@ public class MonoTest {
             squares.add(estate1);
         }
 
-        mono = new Mono(4, dice, squares, estateService, bank);
+        mono = new Mono(4, dice, squares, estateService, bank, actionGiveRight);
     }
 
     @Test
