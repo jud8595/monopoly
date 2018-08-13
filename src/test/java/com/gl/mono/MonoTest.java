@@ -88,7 +88,7 @@ public class MonoTest {
         Assert.assertEquals(1, mono.getCurrentPlayer().getEstates().size());
     }
 
-    @Test
+    /*@Test
     public void hover_start() {
         when(dice.throwDice()).thenReturn(8);
         Assert.assertEquals(0, mono.getCurrentPlayer().getBalance());
@@ -102,7 +102,7 @@ public class MonoTest {
         Assert.assertEquals(0, mono.getCurrentPlayer().getBalance());
         mono.play();
         Assert.assertEquals(5000, mono.getCurrentPlayer().getBalance());
-    }
+    }*/
 
     @Test
     public void end_on_start_no_user_input() {

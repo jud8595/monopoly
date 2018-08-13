@@ -10,12 +10,12 @@ public class ActionBuyEstate implements ActionNeedCurrentPlayer, ActionWaitForIn
 
     private EstateService estateService;
     private Estate estate;
-    private ActionGiveRight actionGiveRight;
+    private ActionGiveRightRead actionGiveRightRead;
 
-    public ActionBuyEstate(EstateService estateService, Estate estate, ActionGiveRight actionGiveRight) {
+    public ActionBuyEstate(EstateService estateService, Estate estate, ActionGiveRightRead actionGiveRightRead) {
         this.estateService = estateService;
         this.estate = estate;
-        this.actionGiveRight = actionGiveRight;
+        this.actionGiveRightRead = actionGiveRightRead;
     }
 
     @Override
@@ -24,7 +24,8 @@ public class ActionBuyEstate implements ActionNeedCurrentPlayer, ActionWaitForIn
     }
 
     public void execute() {
-        Player currentPlayer = this.actionGiveRight.askForRight(this);
+        ((ActionGiveRight) this.actionGiveRightRead).setPlayer(null);
+        Player currentPlayer = this.actionGiveRightRead.askForRight(this);
         estateService.registerBuy(estate, currentPlayer);
     }
 

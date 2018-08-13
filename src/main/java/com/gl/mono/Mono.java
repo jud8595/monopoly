@@ -103,8 +103,11 @@ public class Mono {
     }
 
     private void executeAction(Action action) {
+        actionGiveRight.setPlayer(getCurrentPlayer());
+
         if (action instanceof ActionNeedCurrentPlayer) {
-            ((ActionNeedCurrentPlayer) action).execute(getCurrentPlayer());
+            //((ActionNeedCurrentPlayer) action).execute(getCurrentPlayer());
+            ((ActionNeedCurrentPlayer) action).execute();
         } else if (action instanceof ActionNeedNothing) {
             ((ActionNeedNothing) action).execute();
         } else {

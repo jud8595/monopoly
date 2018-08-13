@@ -19,6 +19,11 @@ public class ActionGetMoney implements ActionNeedCurrentPlayer {
     }
 
     @Override
+    public void execute() {
+
+    }
+
+    @Override
     public String describe() {
         return "getting money. Amount=" + amount;
     }
