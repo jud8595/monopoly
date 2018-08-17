@@ -98,10 +98,24 @@ public class Mono {
     private void executeAction(Action action) {
         Player player = this.players.get(currentPlayer);
 
-        // On a ce qu'on veut dans les paramètres mais on a cassé l'abstraction. Bien ou pas ?
-        if (action instanceof  ActionBuyEstate) {
-            ((ActionBuyEstate) action).execute(player, this.bank.getBalance(player));
+        // Soit :
+        // - on travaille avec des abstractions de classe. Ex: ActionXXXandYYYandZZZ
+        // - on travaille avec des collections d'objets génériques que l'on cast. Ex: List<Action> action. (ActionXXX) action.get(0)
+        // - on travaille avec des objets qui ont un état. Ex: Action implements ActionXXX, ActionYYY, ActionZZZ. action.setActionXXX() puis action.execute()
+        // - soit on passe par un resolver ? Ex: Action implements ActionXXX, ActionYYY, ActionZZZ. resolver.resolve(action) => appelle action.execute(ActionXXXandActionYYYandActionZZZ)
+        //   ==> resolver ne fonctionne pas. On est obligé de créer une interface ActionXXXandActionYYYandActionZZZ
+
+        // => Conclusion: travailler avec des abstractions de classe ! meilleure solution !
+
+        if (action instanceof ActionNeedCurrentPlayer && action instanceof ActionNeedBalance) {
+
         }
+
+        // On a ce qu'on veut dans les paramètres mais on a cassé l'abstraction. Bien ou pas ?
+        // =>soit on garde une interface abstraite ActionNeedCurrentPlayerAndBalance, soit on travaille directement avec ActionBuyEstate
+        /*if (action instanceof  ActionBuyEstate) {
+            ((ActionBuyEstate) action).execute(player, this.bank.getBalance(player));
+        }*/
 
         /*if (action instanceof ActionNeedCurrentPlayer) {
             ((ActionNeedCurrentPlayer) action).setPlayer(player);
