@@ -9,7 +9,9 @@ import com.gl.mono.square.EstateService;
 import com.gl.mono.square.Square;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class Mono {
@@ -95,6 +97,26 @@ public class Mono {
 
     private void executeAction(Action action) {
         Player player = this.players.get(currentPlayer);
+
+        if (action instanceof ActionNeedCurrentPlayer) {
+            ((ActionNeedCurrentPlayer) action).setPlayer(player);
+        }
+        if (action instanceof ActionNeedBalance) {
+            ((ActionNeedBalance) action).setBalance(this.bank.getBalance(player));
+        }
+
+        action.execute();
+
+        /*Map<String, Object> map = new HashMap<>();
+        if (action instanceof ActionNeedCurrentPlayer) {
+            map.put("player", player);
+        }
+        if (action instanceof ActionNeedBalance) {
+            map.put("balance", this.bank.getBalance(player));
+        }
+        action.execute(map);*/
+
+        /*
         if (action instanceof ActionNeedCurrentPlayer) {
             ((ActionNeedCurrentPlayer) action).execute(player);
         } else if (action instanceof ActionNeedCurrentPlayerAndBalance) {
@@ -103,6 +125,6 @@ public class Mono {
             ((ActionNeedNothing) action).execute();
         } else {
             throw new IllegalArgumentException("Unknown type of action");
-        }
+        }*/
     }
 }
