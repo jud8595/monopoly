@@ -1,9 +1,6 @@
 package com.gl.mono;
 
-import com.gl.mono.action.Action;
-import com.gl.mono.action.ActionNeedCurrentPlayer;
-import com.gl.mono.action.ActionNeedNothing;
-import com.gl.mono.action.ActionWaitForInput;
+import com.gl.mono.action.*;
 import com.gl.mono.game.Bank;
 import com.gl.mono.game.Dice;
 import com.gl.mono.game.Player;
@@ -106,6 +103,8 @@ public class Mono {
             ((ActionNeedCurrentPlayer) action).execute(getCurrentPlayer());
         } else if (action instanceof ActionNeedNothing) {
             ((ActionNeedNothing) action).execute();
+        } else if (action instanceof ActionNeedCurrentPlayerAndBalance) {
+            ((ActionNeedCurrentPlayerAndBalance) action).execute(getCurrentPlayer(), 0);
         } else {
             throw new IllegalArgumentException("Unknown type of action");
         }

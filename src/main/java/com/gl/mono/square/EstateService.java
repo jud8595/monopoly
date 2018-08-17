@@ -12,7 +12,10 @@ public class EstateService {
 
     private Map<Estate, Player> estates = new HashMap<>();
 
-    public void registerBuy(Estate estate, Player currentPlayer) {
+    public void registerBuy(Estate estate, Player currentPlayer, int balance) {
+        if (balance <= 0) {
+            System.out.println("cannot buy estate because amount < 10000");
+        }
         this.estates.put(estate, currentPlayer);
     }
 
