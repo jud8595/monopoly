@@ -22,10 +22,10 @@ public class ActionBuyEstate implements ActionNeedCurrentPlayer, ActionNeedBalan
         this.estate = estate;
     }
 
-    /*@Override
+    //@Override
     public void execute(Player player, int balance) {
         estateService.registerBuy(estate, player, balance);
-    }*/
+    }
 
     public void execute(Mono mono) {
         Player player = mono.getCurrentPlayer();

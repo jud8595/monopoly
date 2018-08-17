@@ -98,12 +98,17 @@ public class Mono {
     private void executeAction(Action action) {
         Player player = this.players.get(currentPlayer);
 
-        if (action instanceof ActionNeedCurrentPlayer) {
+        // On a ce qu'on veut dans les paramètres mais on a cassé l'abstraction. Bien ou pas ?
+        if (action instanceof  ActionBuyEstate) {
+            ((ActionBuyEstate) action).execute(player, this.bank.getBalance(player));
+        }
+
+        /*if (action instanceof ActionNeedCurrentPlayer) {
             ((ActionNeedCurrentPlayer) action).setPlayer(player);
         }
         if (action instanceof ActionNeedBalance) {
             ((ActionNeedBalance) action).setBalance(this.bank.getBalance(player));
-        }
+        }*/
 
         action.execute();
 
