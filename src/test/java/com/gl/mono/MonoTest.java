@@ -1,8 +1,12 @@
 package com.gl.mono;
 
-import com.gl.mono.action.*;
+import com.gl.mono.action.Action;
+import com.gl.mono.action.ActionBuyEstate;
+import com.gl.mono.action.ActionDoNothing;
+import com.gl.mono.action.ActionGetMoney;
 import com.gl.mono.game.Bank;
 import com.gl.mono.game.Dice;
+import com.gl.mono.game.Player;
 import com.gl.mono.square.*;
 import org.junit.Assert;
 import org.junit.Before;
@@ -12,6 +16,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.mockito.Mockito.when;
@@ -35,6 +40,7 @@ public class MonoTest {
         squares = new ArrayList<>();
         estateService = new EstateService();
         bank = new Bank();
+        List<Player> players = Arrays.asList(new Player("player1"), new Player("player2"));
 
         // start square
         List<Action> actionsStartSquare = new ArrayList<>();
@@ -55,12 +61,7 @@ public class MonoTest {
             squares.add(estate1);
         }
 
-        mono = new Mono(4, dice, squares, estateService, bank);
-    }
-
-    @Test
-    public void add_four_pl() {
-        Assert.assertEquals(4, mono.getPlayerCount());
+        mono = new Mono(players, dice, squares, estateService, bank);
     }
 
     @Test
@@ -68,7 +69,7 @@ public class MonoTest {
         when(dice.throwDice()).thenReturn(8);
         mono.play();
         Assert.assertEquals(8, dice.throwDice());
-        Assert.assertEquals(8, mono.getCurrentPlayer().getPos());
+        Assert.assertEquals(8, mono.getCurrentPlayerStatus().getPos());
     }
 
     @Test
@@ -84,29 +85,29 @@ public class MonoTest {
         when(dice.throwDice()).thenReturn(8);
         mono.play();
         mono.executeAction(1);
-        Assert.assertEquals(1, mono.getCurrentPlayer().getEstates().size());
+        Assert.assertEquals(1, mono.getCurrentPlayerStatus().getEstates().size());
     }
 
     @Test
     public void hover_start() {
         when(dice.throwDice()).thenReturn(8);
-        Assert.assertEquals(0, mono.getCurrentPlayer().getBalance());
+        Assert.assertEquals(0, mono.getCurrentPlayerStatus().getBalance());
         mono.play();
-        Assert.assertEquals(1000, mono.getCurrentPlayer().getBalance());
+        Assert.assertEquals(1000, mono.getCurrentPlayerStatus().getBalance());
     }
 
     @Test
     public void end_on_start() {
         when(dice.throwDice()).thenReturn(1);
-        Assert.assertEquals(0, mono.getCurrentPlayer().getBalance());
+        Assert.assertEquals(0, mono.getCurrentPlayerStatus().getBalance());
         mono.play();
-        Assert.assertEquals(5000, mono.getCurrentPlayer().getBalance());
+        Assert.assertEquals(5000, mono.getCurrentPlayerStatus().getBalance());
     }
 
     @Test
     public void end_on_start_no_user_input() {
         when(dice.throwDice()).thenReturn(1);
-        Assert.assertEquals(0, mono.getCurrentPlayer().getBalance());
+        Assert.assertEquals(0, mono.getCurrentPlayerStatus().getBalance());
         List<String> actions = mono.play();
         Assert.assertEquals(0, actions.size());
     }

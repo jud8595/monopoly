@@ -1,9 +1,13 @@
 package com.gl.mono;
 
-import com.gl.mono.action.*;
+import com.gl.mono.action.Action;
+import com.gl.mono.action.ActionNeedCurrentPlayer;
+import com.gl.mono.action.ActionNeedNothing;
+import com.gl.mono.action.ActionWaitForInput;
 import com.gl.mono.game.Bank;
 import com.gl.mono.game.Dice;
 import com.gl.mono.game.Player;
+import com.gl.mono.game.PlayerStatus;
 import com.gl.mono.square.EstateService;
 import com.gl.mono.square.Square;
 
@@ -22,12 +26,9 @@ public class Mono {
     private EstateService estateService;
     private Bank bank;
 
-    public Mono(int playerCount, Dice dice, List<Square> squares, EstateService estateService, Bank bank) {
-        players = new ArrayList<>();
-        for (int i=0; i<playerCount; ++i) {
-            players.add(new Player("player" + i));
-        }
+    public Mono(List<Player> players, Dice dice, List<Square> squares, EstateService estateService, Bank bank) {
         currentPlayer = 0;
+        this.players = players;
         this.estateService = estateService;
         this.bank = bank;
         this.dice = dice;
@@ -39,10 +40,6 @@ public class Mono {
             this.balances.add(0);
             this.bank.playerGetMoney(p, 0);
         });
-    }
-
-    public int getPlayerCount() {
-        return players.size();
     }
 
     public List<String> play() {
@@ -59,7 +56,7 @@ public class Mono {
 
         positions.set(currentPlayer, positions.get(currentPlayer) + num);
         // Actions which do not wait for user input
-        squares.get(getCurrentPlayer().getPos()).getActions()
+        squares.get(this.positions.get(currentPlayer)).getActions()
                 .stream()
                 .filter(a -> !(a instanceof ActionWaitForInput))
                 .forEach(a -> {
@@ -67,7 +64,7 @@ public class Mono {
                     System.out.println(a.describe());
                 });
 
-        List<String> actions = squares.get(getCurrentPlayer().getPos()).getActions()
+        List<String> actions = squares.get(this.positions.get(currentPlayer)).getActions()
                 .stream()
                 .filter(a -> a instanceof ActionWaitForInput)
                 .map(a -> a.describe())
@@ -78,20 +75,20 @@ public class Mono {
 
     public Player nextTurn() {
         currentPlayer = (currentPlayer+1)%players.size();
-        Player player = getCurrentPlayer();
-        return player;
+        return this.players.get(currentPlayer);
     }
 
     public Player getCurrentPlayer() {
-        Player cur = players.get(currentPlayer);
-        cur.setPos(positions.get(currentPlayer));
-        cur.setEstates(this.estateService.getEstates(cur));
-        cur.setBalance(this.bank.getBalance(cur));
-        return cur;
+        return this.players.get(currentPlayer);
+    }
+
+    public PlayerStatus getCurrentPlayerStatus() {
+        Player p = this.players.get(currentPlayer);
+        return new PlayerStatus(this.positions.get(currentPlayer), this.bank.getBalance(p), this.estateService.getEstates(p));
     }
 
     public void executeAction(int actionNum) {
-        Action action = squares.get(getCurrentPlayer().getPos()).getActions().stream()
+        Action action = squares.get(this.positions.get(currentPlayer)).getActions().stream()
                 .filter(a -> a instanceof ActionWaitForInput)
                 .collect(Collectors.toList())
                 .get(actionNum);
@@ -101,8 +98,8 @@ public class Mono {
 
     private void executeAction(Action action) {
         if (action instanceof ActionNeedCurrentPlayer) {
-            //((ActionNeedCurrentPlayer) action).execute(getCurrentPlayer());
-            ((ActionNeedCurrentPlayer) action).execute(this);
+            ((ActionNeedCurrentPlayer) action).execute(this.players.get(currentPlayer));
+            //((ActionNeedCurrentPlayer) action).execute(this);
         } else if (action instanceof ActionNeedNothing) {
             ((ActionNeedNothing) action).execute();
         } else {
